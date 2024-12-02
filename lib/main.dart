@@ -2,19 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_linkify/flutter_linkify.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+String textWithUrls = """
+Check out these resources for Flutter development:
+1. Flutter official website: https://flutter.dev
+2. Dart programming language: https://dart.dev
+3. GitHub for source code: https://github.com/flutter/flutter
+4. Stack Overflow for questions: https://stackoverflow.com/questions/tagged/flutter
+5. Medium articles on Flutter: https://medium.com/flutter
+6. A demo project: https://example.com/demo
+7. Contact us: mailto:info@example.com
+8. Call us: tel:+1234567890
+9. Open a map location: https://maps.google.com/?q=37.7749,-122.4194
+""";
+
 void main() {
   runApp(MaterialApp(
     home: Scaffold(
       appBar: AppBar(title: const Text("Expandable Linkify Text")),
-      body: const Padding(
-        padding: EdgeInsets.all(16.0),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
         child: ExpandableLinkifyText(
-          text:
-              "This is a long text example with a link to https://flutter.dev "
-              "and https://github.com. Expand to read more or collapse.",
+          text: textWithUrls,
           trimLines: 2,
-          textStyle: TextStyle(fontSize: 16),
-          linkStyle: TextStyle(color: Colors.blue),
+          textStyle: const TextStyle(fontSize: 16),
+          linkStyle: const TextStyle(color: Colors.blue),
         ),
       ),
     ),
@@ -93,16 +104,19 @@ class _ExpandableLinkifyTextState extends State<ExpandableLinkifyText> {
                 onOpen: _onOpen,
               ),
             if (isOverflowing)
-              GestureDetector(
-                onTap: () {
-                  setState(() {
-                    isExpanded = !isExpanded;
-                  });
-                },
-                child: Text(
-                  isExpanded ? widget.collapseText : widget.expandText,
-                  style: widget.textStyle!.copyWith(
-                    color: Theme.of(context).primaryColor,
+              Align(
+                alignment: Alignment.centerRight,
+                child: GestureDetector(
+                  onTap: () {
+                    setState(() {
+                      isExpanded = !isExpanded;
+                    });
+                  },
+                  child: Text(
+                    isExpanded ? widget.collapseText : widget.expandText,
+                    style: widget.textStyle!.copyWith(
+                      color: Colors.blue,
+                    ),
                   ),
                 ),
               ),
